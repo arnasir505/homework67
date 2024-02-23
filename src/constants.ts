@@ -26,13 +26,6 @@ export const BUTTONS = [
   {
     value: '9',
   },
-  {
-    value: '<',
-  },
-  {
-    value: '0',
-  },
-  {
-    value: 'E',
-  },
 ];
+
+export const rightCode = 1337;
