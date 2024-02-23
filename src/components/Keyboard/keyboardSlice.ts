@@ -3,12 +3,12 @@ import { rightCode } from '../../constants';
 
 interface KeyboardState {
   value: string;
-  isRight: boolean;
+  isRight: null | boolean;
 }
 
 const initialState: KeyboardState = {
   value: '',
-  isRight: false,
+  isRight: null,
 };
 
 export const keyboardSlice = createSlice({
@@ -27,10 +27,16 @@ export const keyboardSlice = createSlice({
     checkCode: (state) => {
       if (state.value === rightCode) {
         state.isRight = true;
+      } else {
+        state.isRight = false;
       }
+    },
+    setToNull: (state) => {
+      state.isRight = null;
     },
   },
 });
 
 export const keyboardReducer = keyboardSlice.reducer;
-export const { typeToScreen, deleteCharacter, checkCode } = keyboardSlice.actions;
+export const { typeToScreen, deleteCharacter, checkCode, setToNull } =
+  keyboardSlice.actions;

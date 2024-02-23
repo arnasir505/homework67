@@ -3,16 +3,45 @@ import { BUTTONS } from '../../constants';
 import Button from '../Button/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
-import { checkCode, typeToScreen } from './keyboardSlice';
+import {
+  checkCode,
+  deleteCharacter,
+  setToNull,
+  typeToScreen,
+} from './keyboardSlice';
 
 const Keyboard = () => {
-  const screenValue = useSelector((state: RootState) => state.keyboard.value);
   const dispatch = useDispatch();
+  const screenValue = useSelector((state: RootState) => state.keyboard.value);
+  const isCodeRight = useSelector((state: RootState) => state.keyboard.isRight);
+
+  const toggleMsg = () => {
+    setTimeout(() => {
+      dispatch(setToNull());
+    }, 1500);
+  };
 
   return (
     <div className='keyboard'>
-      <div className='screen d-flex justify-content-center align-items-center gap-2'>
-        <span className='star'>{screenValue.split('').map((_num) => '*')}</span>
+      <div
+        className={`screen d-flex justify-content-center align-items-center gap-2 
+      ${
+        isCodeRight === true
+          ? 'text-bg-success'
+          : isCodeRight === false
+          ? 'text-bg-danger'
+          : ''
+      }`}
+      >
+        {isCodeRight === true ? (
+          <h1>Access Granted</h1>
+        ) : isCodeRight === false ? (
+          <h1>Access Denied</h1>
+        ) : (
+          <span className='star'>
+            {screenValue.split('').map((_num) => '*')}
+          </span>
+        )}
       </div>
       <div className='row row-cols-3 m-0 g-2'>
         {BUTTONS.map((btn) => (
@@ -21,7 +50,7 @@ const Keyboard = () => {
         <div className='col'>
           <button
             className='btn btn-light btn-lg w-100 border-1 border-secondary fs-4'
-            onClick={() => console.log('<')}
+            onClick={() => dispatch(deleteCharacter())}
           >
             &lt;
           </button>
@@ -37,7 +66,7 @@ const Keyboard = () => {
         <div className='col'>
           <button
             className='btn btn-light btn-lg w-100 border-1 border-secondary fs-4'
-            onClick={() => checkCode()}
+            onClick={() => (dispatch(checkCode()), toggleMsg())}
           >
             E
           </button>
