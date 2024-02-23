@@ -28,4 +28,4 @@ export const BUTTONS = [
   },
 ];
 
-export const rightCode = 1337;
+export const rightCode = '1337';
